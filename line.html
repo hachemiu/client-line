@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Client Waiting Line</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #5c5b5b79;
+        }
+        .container {
+            background: #fff;
+            padding: 24px;
+            border-radius: 8px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 70%;
+            margin-right: 8px;
+        }
+        button {
+            padding: 8px 12px;
+            margin: 4px 0;
+            border: none;
+            background: #0078d7;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #005fa3;
+        }
+        .line-list {
+            margin: 16px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .line-list li {
+            background: #e7f1ff;
+            margin: 4px 0;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .count {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Client Waiting Line</h2>
+    <input type="text" id="clientName" placeholder="Enter client name">
+    <button onclick="addClient()">Add Client</button>
+    <button onclick="serveClient()">Serve Client</button>
+    <button onclick="showLine()">Show Line</button>
+    <button onclick="countClients()">Count Clients</button>
+    <ul class="line-list" id="lineList"></ul>
+    <div class="count" id="countDisplay"></div>
+</div>
+<script>
+    let line = [];
+
+    function addClient() {
+        const nameInput = document.getElementById('clientName');
+        const name = nameInput.value.trim();
+        if (name) {
+            line.push(name);
+            alert(`${name} joined the line.`);
+            nameInput.value = '';
+            showLine();
+        }
+    }
+
+    function serveClient() {
+        if (line.length > 0) {
+            const client = line.shift();
+            alert(`${client} has been served and left the line.`);
+            showLine();
+        } else {
+            alert("No clients in line.");
+        }
+    }
+
+    function showLine() {
+        const list = document.getElementById('lineList');
+        list.innerHTML = '';
+        if (line.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = "No clients in line.";
+            list.appendChild(li);
+        } else {
+            line.forEach(client => {
+                const li = document.createElement('li');
+                li.textContent = client;
+                list.appendChild(li);
+            });
+        }
+        document.getElementById('countDisplay').textContent = '';
+    }
+
+    function countClients() {
+        document.getElementById('countDisplay').textContent = 
+            `Number of clients in line: ${line.length}`;
+    }
+</script>
+</body>
+</html>
